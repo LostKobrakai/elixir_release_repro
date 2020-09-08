@@ -10,7 +10,8 @@ defmodule TestRelease.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      releases: releases()
     ]
   end
 
@@ -21,6 +22,18 @@ defmodule TestRelease.MixProject do
     [
       mod: {TestRelease.Application, []},
       extra_applications: [:logger, :runtime_tools]
+    ]
+  end
+
+  defp releases do
+    [
+      default: [
+        include_executables_for: [:unix],
+        applications: [runtime_tools: :permanent],
+        path: "rel/release",
+        steps: [:assemble],
+        reboot_system_after_config: false
+      ]
     ]
   end
 
